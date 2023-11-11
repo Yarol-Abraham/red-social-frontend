@@ -5,7 +5,7 @@ import NavbarLayout from "../navbar/Index";
 
 function Laoyut({ children }) 
 {
-    const IGNORE_PATH = [ '/user/login' ];
+    const IGNORE_PATH = [ '/user/login', '/user/register' ];
   const [ mostrar, setMostrar ] = useState(false);
     // redireccionar a login
     const redireccionar = function()

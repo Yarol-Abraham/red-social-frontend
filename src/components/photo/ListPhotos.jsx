@@ -3,11 +3,18 @@ import { useState, useEffect } from "react"
 import request from "../../config/axios";
 import Sidebar from "../sidebar/Index";
 import { Col, Row } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function ListPhotos() {
 
     const [ fotos, setFotos ] = useState([]);
     const [ usuarios, setUsuarios ] = useState([]);
+    const [ foto, setFoto ] = useState("");
+    
+    const [modal, setModal] = useState(false);
+
+    const toggle = () => setModal(!modal);
+
     
 const generarNumeroAleatorio = () => {
     const numeros = [0, 100];
@@ -90,7 +97,11 @@ const formatearFecha = (fecha) => {
                             if(generarNumeroAleatorio() == 0) {
                                 return (
                                     <div key={foto.photo_id} className="col-6 col-md-6 col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="">
-                                    <a href="#" className="d-block photo-item">
+                                    <a href="#" className="d-block photo-item" onClick={()=> {
+                                       
+                                        setFoto(`http://localhost:8000\\${foto.url}`);
+                                        toggle();
+                                    }}>
                                             <img src={`http://localhost:8000\\${foto.url}`} alt="Image" className="img-fluid"/>
                                             <div className="photo-text-more">
                                                 <div className="photo-text-more">
@@ -104,7 +115,11 @@ const formatearFecha = (fecha) => {
                             }
                             else {
                                return (
-                                <div key={foto.photo_id} className="col-6 col-md-6 col-lg-4 aos-init" data-aos="fade-up"  data-aos-delay="100">
+                                <div key={foto.photo_id} className="col-6 col-md-6 col-lg-4 aos-init" data-aos="fade-up"  data-aos-delay="100" onClick={()=> {
+                                       
+                                    setFoto(`http://localhost:8000\\${foto.url}`);
+                                    toggle();
+                                }}>
                                 <a href="#" className="d-block photo-item">
                                 <img src={`http://localhost:8000\\${foto.url}`} alt="Image" className="img-fluid"/>
                                         <div className="photo-text-more">
@@ -132,6 +147,18 @@ const formatearFecha = (fecha) => {
                     </div>
                 </div>
             </div>
+            <Modal isOpen={modal} toggle={toggle} size="lg">
+        <ModalHeader toggle={toggle}>Imagen</ModalHeader>
+        <ModalBody>
+           <img src={foto} alt="" />
+        </ModalBody>
+        <ModalFooter>
+        
+          <Button color="secondary" onClick={toggle}>
+            Salir
+          </Button>
+        </ModalFooter>
+      </Modal>
         </main>
         </Col>
         <Col lg={2}>
